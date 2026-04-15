@@ -10,6 +10,7 @@ new class extends Component
 
     public function save()
     {
+        // todo: create a an POST endpoint to do this
         $this->jobs = [];
         $this->timeTakenMs = 0;
         for ($i = 0; $i < $this->rows; $i++) {
