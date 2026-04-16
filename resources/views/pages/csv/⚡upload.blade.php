@@ -13,17 +13,13 @@ new class extends Component
     {
         $this->jobs = [];
         $this->timeTaken = 0;
+
         $service = new CsvService();
         $result = $service->processCsvFiles($this->rows);
 
         $this->jobs = $result;
 
         $this->timeTakenMs = array_sum(array_column($this->jobs, 'timeTaken')) * 1000;
-    }
-
-    public function processJob()
-    {
-        return view('pages.csv.upload');
     }
 };
 ?>
