@@ -1,12 +1,17 @@
 <?php
 
 use Livewire\Component;
-use App\Services\CsvService;
+use App\Services\UserMessageService;
 
 new class extends Component
 {
+    public $jobs = [];
+    public $timeTakenMs = 0;
+    public $rows = 0;
     public function save()
     {
+        $service = new UserMessageService();
+        $this->jobs = $service->messageUsers($this->rows);
     }
 };
 ?>
