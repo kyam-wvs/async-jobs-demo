@@ -1,6 +1,7 @@
 <?php
 
 use Livewire\Component;
+use App\Services\CsvService;
 
 new class extends Component
 {
@@ -10,15 +11,13 @@ new class extends Component
 
     public function save()
     {
-        // todo: create a an POST endpoint to do this
         $this->jobs = [];
-        $this->timeTakenMs = 0;
-        for ($i = 0; $i < $this->rows; $i++) {
-            $timeTaken = rand(1, 20) * 0.1;
-            sleep($timeTaken);
+        $this->timeTaken = 0;
+        $service = new CsvService();
+        $result = $service->processCsvFiles($this->rows);
 
-            $this->jobs[] = ['jobNumber' => $i+1, 'timeTaken' => $timeTaken];
-        }
+        $this->jobs = $result;
+
         $this->timeTakenMs = array_sum(array_column($this->jobs, 'timeTaken')) * 1000;
     }
 
