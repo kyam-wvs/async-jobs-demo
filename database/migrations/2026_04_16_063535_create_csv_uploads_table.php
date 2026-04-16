@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('csv_uploads', function (Blueprint $table) {
             $table->id();
+            $table->json('data');
+            $table->integer('job_number');
             $table->timestamps();
         });
     }
