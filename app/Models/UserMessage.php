@@ -13,5 +13,6 @@ class UserMessage extends Model
     protected $fillable = [
         'message',
         'job_number',
+        'request_id',
     ];
 }

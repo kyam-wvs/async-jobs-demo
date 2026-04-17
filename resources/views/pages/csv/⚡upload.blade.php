@@ -13,10 +13,9 @@ new class extends Component
     public function save()
     {
         $this->inProgress = true;
-        // add a clear all button
 
         $service = new CsvService();
-        $result = $service->processCsvFiles($this->rows);
+        $service->processCsvFiles($this->rows);
 
         $this->inProgress = false;
     }
@@ -36,10 +35,8 @@ new class extends Component
             CSV rows
             <input type="number" wire:model="rows">
         </label>
-        <form wire:submit="save">
 
         <button type="submit">Submit CSV</button>
-        </form>
     </form>
 
     <form wire:submit="clear">

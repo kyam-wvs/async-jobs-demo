@@ -9,7 +9,7 @@ use App\Models\CsvRequest;
 
 class CsvService
 {
-    public function processCsvFiles(int $files): array
+    public function processCsvFiles(int $files): void
     {
         $start = microtime(true);
         $record = CsvRequest::create();
@@ -23,18 +23,13 @@ class CsvService
                 'job_number' => $index + 1,
                 'request_id' => $record->id,
                 'time_taken_ms' => $timeTaken,
-
             ]);
 
             usleep((int) $timeTaken * 1000); // Simulate processing time
-
-            return ['jobNumber' => $index + 1, 'timeTaken' => $timeTaken];
         }, $csvJobs, array_keys($csvJobs));
 
         $end = microtime(true);
 
         $record->update(['time_taken_ms' => ($end - $start) * 1000]);
-
-        return $jobs;
     }
 }

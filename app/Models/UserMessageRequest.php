@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class CsvRequest extends Model
+class UserMessageRequest extends Model
 {
     protected $fillable = [
         'time_taken_ms',
-        'request_id',
     ];
 
-    public function csvUploads(): HasMany
+    public function messages(): HasMany
     {
-        return $this->hasMany(CsvUpload::class, 'request_id');
+        return $this->hasMany(UserMessage::class, 'request_id');
     }
 }
