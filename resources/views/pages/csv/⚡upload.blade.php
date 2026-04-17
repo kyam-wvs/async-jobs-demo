@@ -2,6 +2,7 @@
 
 use Livewire\Component;
 use App\Services\CsvService;
+use App\Models\CsvUpload;
 use App\Models\CsvRequest;
 
 new class extends Component
@@ -19,6 +20,12 @@ new class extends Component
 
         $this->inProgress = false;
     }
+
+    public function clear()
+    {
+        CsvUpload::truncate();
+        CsvRequest::truncate();
+    }
 };
 ?>
 
@@ -33,6 +40,10 @@ new class extends Component
 
         <button type="submit">Submit CSV</button>
         </form>
+    </form>
+
+    <form wire:submit="clear">
+        <button type="submit">Clear all</button>
     </form>
 
     <livewire:csv.view />
