@@ -2,24 +2,22 @@
 
 use Livewire\Component;
 use App\Services\CsvService;
+use App\Models\CsvRequest;
 
 new class extends Component
 {
     public $rows = 0;
-    public $jobs = [];
-    public $timeTakenMs = 0;
+    public $inProgress = false;
 
     public function save()
     {
-        $this->jobs = [];
-        $this->timeTaken = 0;
+        $this->inProgress = true;
+        // add a clear all button
 
         $service = new CsvService();
         $result = $service->processCsvFiles($this->rows);
 
-        $this->jobs = $result;
-
-        $this->timeTakenMs = array_sum(array_column($this->jobs, 'timeTaken')) * 1000;
+        $this->inProgress = false;
     }
 };
 ?>
@@ -37,11 +35,5 @@ new class extends Component
         </form>
     </form>
 
-    <h3>Jobs</h3>
-    <ul>
-        @foreach ($jobs as $job)
-            <li>Job {{ $job['jobNumber'] }}: {{ $job['timeTaken'] }} seconds</li>
-        @endforeach
-    </ul>
-    <p>Total time taken: {{ $timeTakenMs }} ms</p>
+    <livewire:csv.view />
 </div>

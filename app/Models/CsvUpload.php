@@ -10,5 +10,7 @@ class CsvUpload extends Model
         'data',
         'file_name',
         'job_number',
+        'request_id',
+        'time_taken_ms',
     ];
 }
