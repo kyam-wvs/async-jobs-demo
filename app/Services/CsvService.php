@@ -14,7 +14,7 @@ class CsvService
         $start = microtime(true);
         $record = CsvRequest::create();
         $csvJobs = array_fill(0, $files, []);
-        $jobs = array_map(function ($job, $index) use ($files, $record) {
+        array_map(function ($job, $index) use ($files, $record) {
             $timeTaken = rand(500, 2000);
 
             $upload = CsvUpload::create([

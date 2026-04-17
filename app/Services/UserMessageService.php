@@ -9,13 +9,13 @@ use App\Models\UserMessageRequest;
 
 class UserMessageService
 {
-    public function messageUsers(int $users): array
+    public function messageUsers(int $users): void
     {
         $start = microtime(true);
         $record = UserMessageRequest::create();
 
         $userMessages = array_fill(0, $users, []);
-        $messages = array_map(function ($message, $index) use ($users, $record) {
+        array_map(function ($message, $index) use ($users, $record) {
             $timeBefore = microtime(true);
 
             $message = UserMessage::create([
@@ -27,7 +27,5 @@ class UserMessageService
 
         $end = microtime(true);
         $record->update(['time_taken_ms' => ($end - $start) * 1000]);
-
-        return $messages;
     }
 }
