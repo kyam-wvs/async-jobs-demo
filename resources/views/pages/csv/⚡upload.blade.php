@@ -27,8 +27,6 @@ new class extends Component
         $service->processCsvBatchAsync($this->rowsAsynchronous);
 
         $this->inProgress = false;
-
-        // todo: add a processed property to all models, default to false
     }
 
     public function clear()
