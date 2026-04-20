@@ -11,21 +11,19 @@ new class extends Component
     public $rowsAsynchronous = 0;
     public $inProgress = false;
 
-    public function save()
+    public function save(CsvService $service)
     {
         $this->inProgress = true;
 
-        $service = new CsvService();
         $service->processCsvBatchSync($this->rows);
 
         $this->inProgress = false;
     }
 
-    public function saveAsynchronous()
+    public function saveAsynchronous(CsvService $service)
     {
         $this->inProgress = true;
 
-        $service = new CsvService();
         $service->processCsvBatchAsync($this->rowsAsynchronous);
 
         $this->inProgress = false;

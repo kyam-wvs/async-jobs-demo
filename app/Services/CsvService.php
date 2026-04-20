@@ -10,6 +10,11 @@ use App\Jobs\ProcessCsv;
 
 class CsvService
 {
+    public function __construct(private CsvProcessingService $processingService)
+    {
+        $this->processingService = $processingService;
+    }
+
     public function processCsvBatchAsync(int $files): void
     {
         $this->processCsvBatch($files, true);
@@ -39,8 +44,7 @@ class CsvService
             if ($asynchronous) {
                 ProcessCsv::dispatch($upload->id);
             } else {
-                usleep((int) $timeTaken * 1000); // Simulate processing time
-                $upload->update(['completed' => true]);
+                $this->processingService->processCsv($upload->id);
             }
         }, $csvJobs, array_keys($csvJobs));
 
