@@ -10,11 +10,10 @@ new class extends Component
     public $rows = 0;
     public $inProgress = false;
 
-    public function save()
+    public function save(CsvService $service)
     {
         $this->inProgress = true;
 
-        $service = new CsvService();
         $service->processCsvFiles($this->rows);
 
         $this->inProgress = false;
