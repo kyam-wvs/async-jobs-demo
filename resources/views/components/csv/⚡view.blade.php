@@ -37,7 +37,7 @@ new class extends Component
                         <div class="bg-gray-50 rounded px-2 py-1 text-xs whitespace-nowrap">
                             <p class="font-medium truncate">{{ $upload->file_name }}</p>
                             <p class="text-gray-600">Job #{{ $upload->job_number }}</p>
-                            @if ($upload->time_taken_ms)
+                            @if ($upload->completed)
                                 <p class="text-green-600 font-medium">{{ number_format($upload->time_taken_ms / 1000, 2) }}s</p>
                             @else
                                 <p class="text-blue-600">In progress...</p>
