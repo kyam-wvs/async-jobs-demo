@@ -9,7 +9,7 @@ use App\Models\CsvRequest;
 
 class CsvService
 {
-    public function processCsvFiles(int $files): void
+    public function processCsvBatchSync(int $files): void
     {
         $start = microtime(true);
         $record = CsvRequest::create();

@@ -14,7 +14,7 @@ new class extends Component
     {
         $this->inProgress = true;
 
-        $service->processCsvFiles($this->rows);
+        $service->processCsvBatchSync($this->rows);
 
         $this->inProgress = false;
     }
