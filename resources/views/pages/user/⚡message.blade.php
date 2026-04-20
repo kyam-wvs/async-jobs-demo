@@ -9,9 +9,8 @@ use App\Models\UserMessageRequest;
 new class extends Component
 {
     public $rows = 0;
-    public function save()
+    public function save(UserMessageService $service)
     {
-        $service = new UserMessageService();
         $service->messageUsers($this->rows);
     }
 

@@ -6,9 +6,13 @@ namespace App\Services;
 
 use App\Models\UserMessage;
 use App\Models\UserMessageRequest;
+use App\Services\SmsService;
 
 class UserMessageService
 {
+    public function __construct(private SmsService $smsService)
+    {}
+
     public function messageUsers(int $users): void
     {
         $start = microtime(true);
@@ -24,6 +28,8 @@ class UserMessageService
                 'request_id' => $record->id,
                 'completed' => true,
             ]);
+
+            $this->smsService->sendSms("Message for user " . ($index + 1));
         }, $userMessages, array_keys($userMessages));
 
         $end = microtime(true);
