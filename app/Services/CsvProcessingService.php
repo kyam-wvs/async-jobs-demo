@@ -16,7 +16,7 @@ class CsvProcessingService
             // Simulate processing time
             usleep((int) $upload->time_taken_ms * 1000);
             // Update the upload record to indicate it has been processed
-            $upload->update(['processed' => true]);
+            $upload->update(['completed' => true]);
         }
     }
 }

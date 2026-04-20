@@ -23,6 +23,7 @@ class CsvService
                 'data' => json_encode(['sample' => 'data']),
                 'job_number' => $index + 1,
                 'request_id' => $record->id,
+                'time_taken_ms' => $timeTaken,
             ]);
 
             ProcessCsv::dispatch($upload->id);
@@ -30,7 +31,7 @@ class CsvService
 
         $end = microtime(true);
 
-        $record->update(['time_taken_ms' => ($end - $start) * 1000]);
+        $record->update(['time_taken_ms' => ($end - $start) * 1000, 'completed' => true]);
     }
 
     public function processCsvFiles(int $files): void
