@@ -10,36 +10,22 @@ use App\Jobs\ProcessCsv;
 
 class CsvService
 {
-    public function processCsvFilesAsync(int $files): void
+    public function processCsvBatchAsync(int $files): void
     {
-        $start = microtime(true);
-        $record = CsvRequest::create();
-        $csvJobs = array_fill(0, $files, []);
-        array_map(function ($job, $index) use ($files, $record) {
-            $timeTaken = rand(500, 2000);
-
-            $upload = CsvUpload::create([
-                'file_name' => "file_" . ($index + 1) . ".csv",
-                'data' => json_encode(['sample' => 'data']),
-                'job_number' => $index + 1,
-                'request_id' => $record->id,
-                'time_taken_ms' => $timeTaken,
-            ]);
-
-            ProcessCsv::dispatch($upload->id);
-        }, $csvJobs, array_keys($csvJobs));
-
-        $end = microtime(true);
-
-        $record->update(['time_taken_ms' => ($end - $start) * 1000, 'completed' => true]);
+        $this->processCsvBatch($files, true);
     }
 
-    public function processCsvFiles(int $files): void
+    public function processCsvBatchSync(int $files): void
+    {
+        $this->processCsvBatch($files, false);
+    }
+
+    private function processCsvBatch(int $files, bool $asynchronous): void
     {
         $start = microtime(true);
         $record = CsvRequest::create();
         $csvJobs = array_fill(0, $files, []);
-        array_map(function ($job, $index) use ($files, $record) {
+        array_map(function ($job, $index) use ($files, $record, $asynchronous) {
             $timeTaken = rand(500, 2000);
 
             $upload = CsvUpload::create([
@@ -50,8 +36,12 @@ class CsvService
                 'time_taken_ms' => $timeTaken,
             ]);
 
-            usleep((int) $timeTaken * 1000); // Simulate processing time
-            $upload->update(['completed' => true]);
+            if ($asynchronous) {
+                ProcessCsv::dispatch($upload->id);
+            } else {
+                usleep((int) $timeTaken * 1000); // Simulate processing time
+                $upload->update(['completed' => true]);
+            }
         }, $csvJobs, array_keys($csvJobs));
 
         $end = microtime(true);

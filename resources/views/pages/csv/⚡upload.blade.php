@@ -16,7 +16,7 @@ new class extends Component
         $this->inProgress = true;
 
         $service = new CsvService();
-        $service->processCsvFiles($this->rows);
+        $service->processCsvBatchSync($this->rows);
 
         $this->inProgress = false;
     }
@@ -26,7 +26,7 @@ new class extends Component
         $this->inProgress = true;
 
         $service = new CsvService();
-        $service->processCsvFilesAsync($this->rowsAsynchronous);
+        $service->processCsvBatchAsync($this->rowsAsynchronous);
 
         $this->inProgress = false;
 
