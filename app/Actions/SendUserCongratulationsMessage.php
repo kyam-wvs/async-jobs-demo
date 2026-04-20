@@ -2,10 +2,15 @@
 
 namespace App\Actions;
 
+use App\Services\UserMessageService;
+
 class SendUserCongratulationsMessage
 {
-    public function __invoke()
+    public function __invoke(UserMessageService $service)
     {
-        var_dump('Congratulations! This is a scheduled message sent every minute.');
+        $numberOfUsersToMessage = rand(1, 10);
+        $service->messageUsers($numberOfUsersToMessage);
+
+        print_r("Sent congratulations message to " . $numberOfUsersToMessage . " users.\n");
     }
 }
