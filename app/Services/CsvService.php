@@ -17,20 +17,30 @@ class CsvService
 
     public function processCsvBatchAsync(int $files): void
     {
-        $this->processCsvBatch($files, true);
+        $this->processCsvBatch(
+            $files,
+            function (int $id) {
+                ProcessCsv::dispatch($id);
+            }
+        );
     }
 
     public function processCsvBatchSync(int $files): void
     {
-        $this->processCsvBatch($files, false);
+        $this->processCsvBatch(
+            $files,
+            function (int $id) {
+                $this->processingService->processCsv($id);
+            }
+        );
     }
 
-    private function processCsvBatch(int $files, bool $asynchronous): void
+    private function processCsvBatch(int $files, callable $process): void
     {
         $start = microtime(true);
         $record = CsvRequest::create();
         $csvJobs = array_fill(0, $files, []);
-        array_map(function ($job, $index) use ($files, $record, $asynchronous) {
+        array_map(function ($job, $index) use ($files, $record, $process) {
             $timeTaken = rand(500, 2000);
 
             $upload = CsvUpload::create([
@@ -41,11 +51,7 @@ class CsvService
                 'time_taken_ms' => $timeTaken,
             ]);
 
-            if ($asynchronous) {
-                ProcessCsv::dispatch($upload->id);
-            } else {
-                $this->processingService->processCsv($upload->id);
-            }
+            $process($upload->id);
         }, $csvJobs, array_keys($csvJobs));
 
         $end = microtime(true);
