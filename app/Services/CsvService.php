@@ -6,9 +6,33 @@ namespace App\Services;
 
 use App\Models\CsvUpload;
 use App\Models\CsvRequest;
+use App\Jobs\ProcessCsv;
 
 class CsvService
 {
+    public function processCsvFilesAsync(int $files): void
+    {
+        $start = microtime(true);
+        $record = CsvRequest::create();
+        $csvJobs = array_fill(0, $files, []);
+        array_map(function ($job, $index) use ($files, $record) {
+            $timeTaken = rand(500, 2000);
+
+            $upload = CsvUpload::create([
+                'file_name' => "file_" . ($index + 1) . ".csv",
+                'data' => json_encode(['sample' => 'data']),
+                'job_number' => $index + 1,
+                'request_id' => $record->id,
+            ]);
+
+            ProcessCsv::dispatch($upload->id);
+        }, $csvJobs, array_keys($csvJobs));
+
+        $end = microtime(true);
+
+        $record->update(['time_taken_ms' => ($end - $start) * 1000]);
+    }
+
     public function processCsvFiles(int $files): void
     {
         $start = microtime(true);

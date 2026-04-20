@@ -8,6 +8,7 @@ use App\Models\CsvRequest;
 new class extends Component
 {
     public $rows = 0;
+    public $rowsAsynchronous = 0;
     public $inProgress = false;
 
     public function save()
@@ -18,6 +19,18 @@ new class extends Component
         $service->processCsvFiles($this->rows);
 
         $this->inProgress = false;
+    }
+
+    public function saveAsynchronous()
+    {
+        $this->inProgress = true;
+
+        $service = new CsvService();
+        $service->processCsvFilesAsync($this->rowsAsynchronous);
+
+        $this->inProgress = false;
+
+        // todo: add a processed property to all models, default to false
     }
 
     public function clear()
@@ -37,8 +50,16 @@ new class extends Component
                 <input type="number" wire:model="rows">
             </label>
 
-            <button type="submit">Submit CSV</button>
+            <button type="submit">Submit CSV (synchronous)</button>
         </form>
+            <form wire:submit="saveAsynchronous">
+                <label>
+                    CSV rows
+                    <input type="number" wire:model="rowsAsynchronous">
+                </label>
+
+                <button type="submit">Submit CSV (asynchronous)</button>
+            </form>
 
         <form wire:submit="clear">
             <button type="submit">Clear all</button>
