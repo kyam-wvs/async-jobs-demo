@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('file_name');
             $table->integer('job_number');
             $table->integer('time_taken_ms')->nullable();
+            $table->boolean('completed')->default(false);
             $table->timestamps();
         });
     }

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('user_message_requests', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->boolean('completed')->default(false);
             $table->integer('time_taken_ms')->nullable();
         });
     }

@@ -12,5 +12,6 @@ class CsvUpload extends Model
         'job_number',
         'request_id',
         'time_taken_ms',
+        'completed',
     ];
 }

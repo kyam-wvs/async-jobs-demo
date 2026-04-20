@@ -22,10 +22,11 @@ class UserMessageService
                 'message' => "Message for user " . ($index + 1),
                 'job_number' => $index + 1,
                 'request_id' => $record->id,
+                'completed' => true,
             ]);
         }, $userMessages, array_keys($userMessages));
 
         $end = microtime(true);
-        $record->update(['time_taken_ms' => ($end - $start) * 1000]);
+        $record->update(['time_taken_ms' => ($end - $start) * 1000, 'completed' => true]);
     }
 }

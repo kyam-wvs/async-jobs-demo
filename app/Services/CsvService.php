@@ -50,10 +50,11 @@ class CsvService
             ]);
 
             usleep((int) $timeTaken * 1000); // Simulate processing time
+            $upload->update(['completed' => true]);
         }, $csvJobs, array_keys($csvJobs));
 
         $end = microtime(true);
 
-        $record->update(['time_taken_ms' => ($end - $start) * 1000]);
+        $record->update(['time_taken_ms' => ($end - $start) * 1000, 'completed' => true]);
     }
 }

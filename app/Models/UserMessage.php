@@ -14,5 +14,6 @@ class UserMessage extends Model
         'message',
         'job_number',
         'request_id',
+        'completed',
     ];
 }
