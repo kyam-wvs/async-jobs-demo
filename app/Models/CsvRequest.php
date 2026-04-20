@@ -10,6 +10,7 @@ class CsvRequest extends Model
     protected $fillable = [
         'time_taken_ms',
         'request_id',
+        'completed',
     ];
 
     public function csvUploads(): HasMany

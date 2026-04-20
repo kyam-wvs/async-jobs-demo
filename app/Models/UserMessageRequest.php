@@ -9,6 +9,7 @@ class UserMessageRequest extends Model
 {
     protected $fillable = [
         'time_taken_ms',
+        'completed',
     ];
 
     public function messages(): HasMany
