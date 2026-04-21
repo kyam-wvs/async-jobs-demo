@@ -10,14 +10,14 @@ class SendUserCongratsMessage implements ShouldQueue
 {
     use Queueable;
 
-    private int $messageId;
+    private $message;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(int $messageId)
+    public function __construct($message)
     {
-        $this->messageId = $messageId;
+        $this->message = $message;
     }
 
     /**
@@ -25,6 +25,6 @@ class SendUserCongratsMessage implements ShouldQueue
      */
     public function handle(SmsService $service): void
     {
-        $service->sendSms("Message for user " . ($this->messageId + 1));
+        $service->sendSms($this->message);
     }
 }

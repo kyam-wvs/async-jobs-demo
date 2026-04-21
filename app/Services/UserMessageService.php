@@ -21,16 +21,16 @@ class UserMessageService
 
         $userMessages = array_fill(0, $users, []);
         array_map(function ($message, $index) use ($users, $record) {
-            $timeBefore = microtime(true);
+            $timeBefore = microtime();
 
             $message = UserMessage::create([
                 'message' => "Message for user " . ($index + 1),
                 'job_number' => $index + 1,
                 'request_id' => $record->id,
-                'completed' => true,
+                'start_microtime' => $timeBefore,
             ]);
 
-            SendUserCongratsMessage::dispatch($message->id);
+            SendUserCongratsMessage::dispatch($message);
         }, $userMessages, array_keys($userMessages));
 
         $end = microtime(true);
