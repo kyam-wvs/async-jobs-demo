@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Models\UserMessage;
 use App\Models\UserMessageRequest;
 use App\Services\SmsService;
+use App\Jobs\SendUserCongratsMessage;
 
 class UserMessageService
 {
@@ -29,7 +30,7 @@ class UserMessageService
                 'completed' => true,
             ]);
 
-            $this->smsService->sendSms("Message for user " . ($index + 1));
+            SendUserCongratsMessage::dispatch($message->id);
         }, $userMessages, array_keys($userMessages));
 
         $end = microtime(true);
