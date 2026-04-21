@@ -16,8 +16,9 @@ return new class extends Migration
             $table->text('message');
             $table->integer('request_id');
             $table->integer('job_number');
-            $table->integer('time_taken_ms')->nullable();
             $table->boolean('completed')->default(false);
+            $table->string('start_microtime')->nullable();
+            $table->string('end_microtime')->nullable();
             $table->timestamps();
         });
     }
