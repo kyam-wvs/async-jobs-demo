@@ -37,7 +37,11 @@ new class extends Component
                         <div class="bg-gray-50 rounded px-2 py-1 text-xs whitespace-nowrap">
                             <p class="font-medium truncate">{{ $message->file_name }}</p>
                             <p class="text-gray-600">Job #{{ $message->job_number }}</p>
-                            <p class="text-green-600 font-medium">{{ number_format($message->time_taken_ms / 1000, 2) }}s</p>
+                            @if ($message->getTimeTakenMs())
+                                <p class="text-green-600 font-medium">{{ number_format($message->getTimeTakenMs() / 1000, 2) }}s</p>
+                            @else
+                                <p class="text-blue-600">In progress...</p>
+                            @endif
                         </div>
                     @empty
                         <p class="text-gray-500 text-xs">No messages yet.</p>
