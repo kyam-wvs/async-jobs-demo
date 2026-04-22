@@ -23,7 +23,7 @@ new class extends Component
 ?>
 
 <div>
-    <h2>CSV File upload</h2>
+    <h2>Trigger User congratulations message</h2>
     <form wire:submit="save">
         <label>
             Users to message
